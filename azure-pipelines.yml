@@ -11,12 +11,7 @@ pool:
 
 strategy:
   matrix:
-    Python38:
-      python.version: '3.8'
-    Python39:
-      python.version: '3.9'
-    Python310:
-      python.version: '3.10'
+
     Python311:
       python.version: '3.11'
 
@@ -35,3 +30,13 @@ steps:
     pip install pytest pytest-azurepipelines
     pytest
   displayName: 'pytest'
+  
+# Instalar o CodeRabbit CLI
+- script: |
+    npm install -g coderabbit-cli
+  displayName: 'Instalar CodeRabbit CLI'
+
+# Executar a revisão do CodeRabbit
+- script: |
+    coderabbit review --branch $(Build.SourceBranch) # Isso rodará o CodeRabbit no branch atual
+  displayName: 'Executar revisão do CodeRabbit'
